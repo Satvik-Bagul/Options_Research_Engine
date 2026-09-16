@@ -10,22 +10,24 @@ class CRRBinomial:
         return dt,u,d,p
 
     @classmethod
-    def price(cls,option_type,S,K,T,r,q,sigma,steps=400,american=True,max_steps=10000):
+    def price(cls,option_type,S,K,T,r,q,sigma,steps=400,american=True,max_steps=2000):
         if option_type not in ("call","put"): 
             raise ValueError("Invalid option type")
         if S<=0 or K<=0: 
             raise ValueError("S and K must be positive")
-        if T<=0: 
+        if not np.isfinite(T) or T <= 0: 
             return max(S-K,0) if option_type=="call" else max(K-S,0)
-        if sigma<=0: return max(S-K,0) if option_type=="call" else max(K-S,0)
+        if not np.isfinite(sigma) or sigma <= 0: return max(S-K,0) if option_type=="call" else max(K-S,0)
 
         n=max(1,int(steps))
         while True:
             dt,u,d,p=cls._parameters(T,r,q,sigma,n)
             if 0<=p<=1: break
             n*=2
-            if n>max_steps:
-                return cls._jarrow_rudd(option_type,S,K,T,r,q,sigma,max_steps,american)
+            if n > max_steps:
+
+                fallback_steps = min(int(max_steps),2000,)
+                return cls._jarrow_rudd(option_type,S,K,T,r,q,sigma,fallback_steps,american,)
 
         disc=math.exp(-r*dt)
         j=np.arange(n+1); stock=S*(u**j)*(d**(n-j))
