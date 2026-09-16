@@ -624,7 +624,7 @@ with tab1:
     )
 
     d.metric(
-        "IV Calibrated",
+        "No. of options w/ IV Calibrated",
         f"{iv_count:,}"
     )
 
