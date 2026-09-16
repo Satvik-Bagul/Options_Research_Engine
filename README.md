@@ -874,7 +874,9 @@ and takes the larger value.
 
 That is how early exercise is incorporated.
 
-CRR numerical stability
+------------------------------------------------------------
+
+**CRR numerical stability**
 
 The standard CRR model calculates:
 
@@ -898,35 +900,38 @@ or:
 
 p > 1
 
-This can be more likely with:
+##This can be more likely with:
 
-Very short expiration
+1. Very short expiration
 
-Very low volatility
+2. Very low volatility
 
-Large interest-rate/dividend drift
+3. Large interest-rate/dividend drift
 
-Too few tree steps
+4. Too few tree steps
+
 
 The application does not simply use:
 
-p = np.clip(p, 0, 1)
+``p = np.clip(p, 0, 1)``
 
 because that hides the numerical problem and changes the model.
 
 Instead it can:
 
-Start with the requested step count.
+1. Start with the requested step count.
 
-Check the probability.
+2. Check the probability.
 
-Increase the number of steps if needed.
+3. Increase the number of steps if needed.
 
-Recalculate.
+4. Recalculate.
 
 Use a Jarrow-Rudd fallback if necessary.
 
-Jarrow-Rudd fallback
+-----------------------------------------------------------------------
+
+**Jarrow-Rudd fallback**
 
 The Jarrow-Rudd binomial model is another binomial-tree
 construction.
@@ -951,7 +956,9 @@ Jarrow-Rudd fallback
 If no reliable result can be produced, the application should report the
 failure instead of inventing a price.
 
-ITM, ATM, and OTM
+-----------------------------------------------------------------------------------------
+
+**ITM, ATM, and OTM**
 
 Options are commonly classified as:
 
@@ -961,13 +968,13 @@ ATM = At the Money
 
 OTM = Out of the Money
 
-Call
+##Call
 
 Underlying > Strike → ITM
 Underlying ≈ Strike → ATM
 Underlying < Strike → OTM
 
-Put
+##Put
 
 Underlying < Strike → ITM
 Underlying ≈ Strike → ATM
@@ -975,7 +982,9 @@ Underlying > Strike → OTM
 
 These labels make the option chain easier to understand.
 
-IV smile and volatility skew
+-----------------------------------------------------------------------------------
+
+**IV smile and volatility skew**
 
 If every strike had exactly the same implied volatility, an IV chart
 across strikes would be roughly flat.
@@ -992,7 +1001,9 @@ IV can vary by strike, producing patterns such as:
         \____
            → Strike
 
-This is often called an IV smile.
+This is often called an IV smile ( This is the best i can represent 
+the graph in this documentation. Refer to the website opengine.streamlit.app
+ for a proper example of an IV smile graph).
 
 If one side consistently has higher IV, this is commonly called
 volatility skew.
@@ -1002,7 +1013,9 @@ volatility to every strike.
 
 The application's IV Smile view provides an introduction to this idea.
 
-Application workflow
+------------------------------------------------------------------------------------------
+
+**Application workflow**
 
 The general pipeline is:
 
@@ -1025,7 +1038,7 @@ Quote Validation
        IV Calibration
               │
               ▼
-       Black-Scholes
+   Black-Scholes/CRR Binomial
               │
         ┌─────┴─────┐
         ▼           ▼
@@ -1041,7 +1054,9 @@ Separate model comparison:
               ▼
      American-style Theo
 
-Performance and vectorization
+-------------------------------------------------------------------------------------
+
+**Performance and vectorization**
 
 An option chain can contain many contracts.
 
@@ -1049,7 +1064,7 @@ An inefficient approach would calculate every option with:
 
 DataFrame.iterrows()
 
-The project instead uses NumPy-based vectorized calculations where
+That's why in this project I instead use NumPy-based vectorized calculations where
 possible.
 
 Conceptually:
@@ -1071,7 +1086,9 @@ This reduces Python-level looping and improves performance.
 The IV solver still works contract-by-contract because each contract has
 its own numerical root-finding problem.
 
-Caching
+---------------------------------------------------------------------------------------
+
+**Caching**
 
 Streamlit reruns the application when widgets change.
 
@@ -1084,7 +1101,7 @@ The project therefore uses:
 
 for serializable market-data results.
 
-Streamlit documentation:
+##Streamlit documentation:
 
 https://docs.streamlit.io/develop/api-reference/caching-and-state/st.cache_data
 
@@ -1092,25 +1109,29 @@ The application avoids treating a yfinance.Ticker object as ordinary
 cached data and instead caches the serializable data required by the
 application.
 
-Numerical safety
+--------------------------------------------------------------------------------------------
+
+**Numerical safety**
 
 Financial formulas can behave badly around edge cases.
 
 The application checks conditions such as:
 
-S <= 0
-K <= 0
-T <= 0
-σ <= 0
-NaN values
-Infinite values
-Invalid market prices
-Impossible option prices
-Unbracketed IV roots
-IV non-convergence
-Invalid CRR probabilities
+1. S <= 0
+2. K <= 0
+3. T <= 0
+4. σ <= 0
+5. NaN values
+6. Infinite values
+7. Invalid market prices
+8. Impossible option prices
+9. Unbracketed IV roots
+10. IV non-convergence
+11. Invalid CRR probabilities
 
-Expiration approaching zero
+--------------------------------------------------------------------------------------------------
+
+**Expiration approaching zero**
 
 Black-Scholes contains terms involving:
 
@@ -1120,7 +1141,7 @@ As:
 
 T → 0
 
-these terms can become unstable.
+these terms can become unstable, because we can't divide by zero (obviously).
 
 The application therefore treats expiration as a special case rather
 than blindly evaluating a division by zero.
@@ -1130,7 +1151,9 @@ value. Ordinary Black-Scholes Greeks are not well-behaved at that exact
 point, so the application should avoid presenting unstable values as if
 they were precise.
 
-Project structure
+-------------------------------------------------------------------------------------------
+
+**Project structure**
 
 quant_options_engine/
 │
@@ -1153,51 +1176,55 @@ quant_options_engine/
 ├── .gitignore
 └── run_app.bat
 
-app.py
+##app.py
 
 Streamlit interface and application workflow.
 
-black_scholes.py
+##black_scholes.py
 
 Contains:
 
-Black-Scholes pricing
+1. Black-Scholes pricing
 
-Dividend-aware calculations
+2. Dividend-aware calculations
 
-Greeks
+3. Greeks
 
-Implied volatility
+4. Implied volatility
 
-Brent root-finding
+5. Brent root-finding
 
-Numerical safety checks
+6. Numerical safety checks
 
-crr.py
+##crr.py
 
 Contains:
 
-CRR binomial pricing
+1. CRR binomial pricing
 
-American early-exercise logic
+2. American early-exercise logic
 
-Adaptive step count
+3. Adaptive step count
 
-Jarrow-Rudd fallback
+4. Jarrow-Rudd fallback
 
-market_data.py
+##market_data.py
 
 Handles:
 
-Yahoo Finance data
+1. Yahoo Finance data
 
-Underlying information
+2. Underlying information
 
-Option-chain retrieval
+3. Option-chain retrieval
 
-Data preparation
+4. Data preparation
 
-Running the application
+----------------------------------------------------------------------------------------------------
+
+**Running the application**
+
+(ChatGPT'ed this part to follow usual GitHub repo lingo)
 
 1. Clone the repository
 
@@ -1228,14 +1255,16 @@ pip install -r requirements.txt
 
 streamlit run app.py
 
-Testing
+-----------------------------------------------------------------------------------------
+
+**Testing**
 
 The application should be tested at both the mathematical and
 data-quality levels.
 
-Mathematical tests
+##Mathematical tests
 
-Black-Scholes benchmark
+1. Black-Scholes benchmark
 
 Use known inputs and compare the result against a trusted benchmark.
 
