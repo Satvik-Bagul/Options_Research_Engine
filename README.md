@@ -15,7 +15,7 @@ undeerstanding but also be understandable to someone who has never traded an
 option, while still demonstrating concepts used in quantitative finance
 and options market making.
 
-Important: This is a research and educational project. Yahoo
+**Important**: This is a research and educational project. Yahoo
 Finance data can be delayed, stale, incomplete, or inconsistent. This
 application is not an execution system and should not be used as a
 source of executable trading prices.
@@ -28,62 +28,62 @@ source of executable trading prices.
 
 1. What is this project?
 
-2. Options explained simply
+2. Running the application
 
-3. What the application does
+3. Options explained simply
 
-4.Market data vs model data
+4. What the application does
 
-5.Bid, Ask, Mid, Spread, and Last
+5. Market data vs model data
 
-6. How option prices are
+6. Bid, Ask, Mid, Spread, and Last
+
+7. How option prices are
 determined
 
-7. Black-Scholes
+8. Black-Scholes
 
-8. Dividend yield
+9. Dividend yield
 
-9. Implied volatility
+10. Implied volatility
 
-10. Why Brent root-finding is used
+11. Why Brent root-finding is used
 
-11. Bad quotes and liquidity
+12. Bad quotes and liquidity
 filtering
 
-12. What happens when IV cannot be
+13. What happens when IV cannot be
 calculated
 
-13. Theo (theoretical value)
+14. Theo (theoretical value)
 
-14. The Greeks
+15. The Greeks
 
-15. European vs American options
+16. European vs American options
 
-16. CRR binomial model
+17. CRR binomial model
 
-17. CRR numerical stability
+18. CRR numerical stability
 
-18. Jarrow-Rudd fallback
+19. Jarrow-Rudd fallback
 
-19. ITM, ATM, and OTM
+20. ITM, ATM, and OTM
 
-20. IV smile and volatility skew
+21. IV smile and volatility skew
 
-21. Application workflow
+22. Application workflow
 
-22. Performance and vectorization
+23. Performance and vectorization
 
-23. Caching
+24. Caching
 
-24. Numerical safety
+25. Numerical safety
 
-25. Project structure
-
-26. Running the application
+26. Project structure
 
 27. Testing
 
-28. Learning resources
+28. What I used to study
 
 29. Future improvements
 
@@ -99,39 +99,72 @@ calculated
 The Quantitative Options Research Engine is an options analytics
 application built with:
 
-PYTHON for quantitative calculations
+    PYTHON for quantitative calculations
 
-NUMPY for numerical computation
+    NUMPY for numerical computation
 
-PANDAS for market-data processing
+    PANDAS for market-data processing
 
-SCIPY for statistics and numerical root-finding
+    SCIPY for statistics and numerical root-finding
 
-YFINANCE for Yahoo Finance market data
+    YFINANCE for Yahoo Finance market data
 
-STREAMLIT for the interactive interface
+    STREAMLIT for the interactive interface
 
-PLOTLY for charts
+    PLOTLY for charts
 
-***************************************************************************************
+The application takes an option chain and answers questions such as:
 
-**The application takes an option chain and answers questions such as:**
+    1. What is the market currently quoting?
 
-1. What is the market currently quoting?
+    2. What volatility is implied by that market price?
 
-2. What volatility is implied by that market price?
+    3. What does a pricing model think the option is worth?
 
-3. What does a pricing model think the option is worth?
-
-4. How sensitive is the option to changes in the underlying, volatility,
+    4. How sensitive is the option to changes in the underlying, volatility,
 time, and interest rates?
 
-5. Does an American-style model produce a different value from a
+    5. Does an American-style model produce a different value from a
 European-style model?
 
 The project is therefore both an options calculator and a
 demonstration of how a small quantitative research system can be
 structured.
+
+---------------------------------------------------------------------------------------------
+
+**Running the application**
+
+(ChatGPT'ed this part to follow usual GitHub repo lingo)
+
+1. Clone the repository
+
+    >git clone <your-repository-url>
+    >cd quant_options_engine
+
+2. Create a virtual environment
+
+    Windows
+
+    >python -m venv .venv
+    >.venv\Scripts\activate
+
+    macOS / Linux
+
+    >python -m venv .venv
+    >source .venv/bin/activate
+
+Python virtual environments:
+
+https://docs.python.org/3/library/venv.html
+
+3. Install dependencies
+
+    >pip install -r requirements.txt
+
+4. Start Streamlit
+
+    >streamlit run app.py
 
 ----------------------------------------------------------------------------------------
 
@@ -189,29 +222,29 @@ The application retrieves an option chain and processes the contracts.
 
 ##It can work with:
 
--Underlying price
--Strike
--Expiration
--Call / Put
--Bid
--Ask
--Last price
--Volume
--Open interest
--Yahoo IV
+    -Underlying price
+    -Strike
+    -Expiration
+    -Call / Put
+    -Bid
+    -Ask
+    -Last price
+    -Volume
+    -Open interest
+    -Yahoo IV
 
 ##It then calculates or displays:
 
--Market Mid
--Spread
--Calculated IV
--Theoretical value
--Delta
--Gamma
--Theta
--Vega
--Rho
--ITM / OTM classification
+    -Market Mid
+    -Spread
+    -Calculated IV
+    -Theoretical value
+    -Delta
+    -Gamma
+    -Theta
+    -Vega
+    -Rho
+    -ITM / OTM classification
 
 
 ##The application also compares:
@@ -230,23 +263,23 @@ There are two fundamentally different kinds of numbers.
 
 These come from the market-data source:
 
-Bid
-Ask
-Last
-Volume
-Open Interest
+    Bid
+    Ask
+    Last
+    Volume
+    Open Interest
 
 ##Model values
 
 These are calculated by mathematical models:
 
-Theo
-Calculated IV
-Delta
-Gamma
-Theta
-Vega
-Rho
+    Theo
+    Calculated IV
+    Delta
+    Gamma
+    Theta
+    Vega
+    Rho
 
 The distinction is:
 
@@ -285,59 +318,59 @@ https://akunacapital.teachable.com/p/options101
 
 ##Bid
 
-The bid is the price currently offered by a buyer.
+    The bid is the price currently offered by a buyer.
 
-Bid = $9.80
+    Bid = $9.80
 
 ##Ask
 
-The ask, or offer, is the price at which a seller is offering the
-option.
+    The ask, or offer, is the price at which a seller is offering the
+    option.
 
-Ask = $10.20
+    Ask = $10.20
 
 ##Mid
 
-When both quotes are valid:
+    When both quotes are valid:
 
-Mid = (Bid + Ask) / 2
+    Mid = (Bid + Ask) / 2
 
-Example:
+    Example:
 
-Bid = $9.80
-Ask = $10.20
+    Bid = $9.80
+    Ask = $10.20
 
-Mid = $10.00
+    Mid = $10.00
 
-The Mid is a market-derived value, not a model price.
+    The Mid is a market-derived value, not a model price.
 
 ##Spread
 
-Spread = Ask - Bid
+    Spread = Ask - Bid
 
-Example:
+    Example:
 
-$10.20 - $9.80 = $0.40
+        $10.20 - $9.80 = $0.40
 
-A large spread can indicate lower liquidity or a less reliable quote.
+    A large spread can indicate lower liquidity or a less reliable quote.
 
 ##Last
 
-Last is the most recent reported trade.
+    Last is the most recent reported trade.
 
-It is not necessarily the price available now.
+    It is not necessarily the price available now.
 
-For example:
+    For example:
 
-Last = $10.00
-Bid  = $8.50
-Ask  = $11.50
+        Last = $10.00
+        Bid  = $8.50
+        Ask  = $11.50
 
-The last trade may have happened earlier under different market
-conditions.
+    The last trade may have happened earlier under different market
+    conditions.
 
-That is why the application does not automatically treat Last as the
-current Mid.
+    That is why the application does not automatically treat Last as the
+    current Mid.
 
 ------------------------------------------------------------------------------------
 
@@ -347,45 +380,45 @@ An option's value depends on several factors.
 
 The main inputs are:
 
-S  = underlying price
-K  = strike price
-T  = time remaining
-r  = risk-free interest rate
-q  = dividend yield
-σ  = volatility
+    S  = underlying price
+    K  = strike price
+    T  = time remaining
+    r  = risk-free interest rate
+    q  = dividend yield
+    σ  = volatility
 
 In plain English:
 
 ##Underlying price (S)
 
-If the underlying moves, the option usually moves too.
+    If the underlying moves, the option usually moves too.
 
 ##Strike price(K)
 
-The strike is the price at which the option can be exercised.
+    The strike is the price at which the option can be exercised.
 
 ##Time to expiration(T)
 
-More time generally gives the option more opportunity to become
-valuable. This is an important concept that affects volatility. 
-More time == higher chance the option ends up "IN THE MONEY"
+    More time generally gives the option more opportunity to become
+    valuable. This is an important concept that affects volatility. 
+    More time == higher chance the option ends up "IN THE MONEY"
 
 ##Interest rate(r)
 
-Interest rates affect the value of money paid or received in the future.
+    Interest rates affect the value of money paid or received in the future.
 
 ##Dividend yield(q)
 
-Dividends affect the economics of holding the underlying.
+    Dividends affect the economics of holding the underlying.
 
 ##Volatility(σ)
 
-Volatility describes how much the underlying is expected to move.
+    Volatility describes how much the underlying is expected to move.
 
-Higher volatility generally increases the value of both calls and puts
-because larger possible moves create more potential payoff.
+    Higher volatility generally increases the value of both calls and puts
+    because larger possible moves create more potential payoff.
 
-Beginner resource:
+##Beginner resource:
 
 https://www.optionseducation.org/optionsoverview/options-pricing
 
@@ -398,47 +431,47 @@ European-style pricing model.
 
 ##The simplified idea is:
 
-Inputs
-  ↓
-Black-Scholes
-  ↓
+      Inputs
+        ↓
+   Black-Scholes
+        ↓
 Theoretical option price
 
 ##For a call:
 
-C = S e^(-qT) N(d1) - K e^(-rT) N(d2)
+    C = S e^(-qT) N(d1) - K e^(-rT) N(d2)
 
 ##For a put:
 
-P = K e^(-rT) N(-d2) - S e^(-qT) N(-d1)
+    P = K e^(-rT) N(-d2) - S e^(-qT) N(-d1)
 
 ##where:
 
-d1 = [ln(S/K) + (r-q+σ²/2)T] / (σ√T)
+    d1 = [ln(S/K) + (r-q+σ²/2)T] / (σ√T)
 
-d2 = d1 - σ√T
+    d2 = d1 - σ√T
 
 Honeslty it looks a bit complicated but, 
 The idea is that the model converts assumptions about:
 
-Price
-Strike
-Time
-Rates
-Dividends
-Volatility
+>Price
+>Strike
+>Time
+>Rates
+>Dividends
+>Volatility
 
 into an estimated option value.
 
 Black-Scholes is:
 
-Well known
+    1. Well known
 
-Fast
+    2. Fast
 
-Mathematically useful
+    3. Mathematically useful
 
-A foundation for many quantitative finance concepts
+    4. A foundation for many quantitative finance concepts
 
 But it is not a perfect description of real markets.
 
@@ -459,10 +492,10 @@ calculations.
 
 The basic intuition is:
 
-Higher dividend yield
-        ↓
-Generally lowers call value
-Generally increases put value
+        Higher dividend yield
+                ↓
+    Generally lowers call value
+    Generally increases put value
 
 The exact effect depends on all the other inputs.
 
@@ -483,25 +516,25 @@ produce that price.
 
 ##Normal pricing:
 
-Volatility + other inputs
-            ↓
-        Option price
+    Volatility + other inputs
+                ↓
+            Option price
 
 ##Implied volatility:
 
-Market option price
-        ↓
-     Pricing model
-        ↓
-"What volatility makes the model
- produce this price?"
-        ↓
- Implied volatility
+    Market option price
+            ↓
+        Pricing model
+            ↓
+    "What volatility makes the model
+    produce this price?"
+            ↓
+    Implied volatility
 
 Example:
 
-Market Mid = $10.00
-Calculated IV = 25%
+    Market Mid = $10.00
+    Calculated IV = 25%
 
 This means that, under the model assumptions, 25% volatility produces a
 price close to the observed market price.
@@ -514,53 +547,55 @@ IV is therefore calculated, not directly observed like Bid or Ask.
 
 ##Black-Scholes naturally answers:
 
-Given volatility → calculate price
+    Given volatility → calculate price
 
 ##We want to solve:
 
-Given price → calculate volatility
+    Given price → calculate volatility
 
 There is no simple closed-form formula for standard Black-Scholes
 implied volatility.
 
 ##So the application solves:
 
-ModelPrice(IV) - MarketPrice = 0 ................... ModelPrice(IV) = Price calculated with the calculated IV.   
+    ModelPrice(IV) - MarketPrice = 0 ................... ModelPrice(IV) = Price calculated 
+                                                                          with the calculated 
+                                                                          IV.   
 
 ##using SciPy's brentq() root finder.
 
-Brent's method searches for a root inside a bracket where the function
-changes sign.
+    Brent's method searches for a root inside a bracket where the function
+    changes sign.
 
 Resource:
 
-https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.brentq.html
+    https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.brentq.html
 
 ##Why brentq() can fail
 
-Not every market price corresponds to a valid IV.
+    Not every market price corresponds to a valid IV.
 
 For example:
 
-Impossible market price
-        ↓
-No volatility can reproduce it
-        ↓
-No mathematical root
-        ↓
-brentq cannot converge
+    Impossible market price
+            ↓
+    No volatility can reproduce it
+            ↓
+    No mathematical root
+            ↓
+    brentq cannot converge
 
 ##The application therefore checks:
 
-1. Are the inputs are valid?
+    1. Are the inputs are valid?
 
-2. Is the market price is finite?
+    2. Is the market price is finite?
 
-3. Is the market price is inside theoretical bounds?
+    3. Is the market price is inside theoretical bounds?
 
-4. Is the root is bracketed?
+    4. Is the root is bracketed?
 
-5. Does Brent actually converge?
+    5. Does Brent actually converge?
 
 ##If not, the table outputs:
 
@@ -576,64 +611,62 @@ Real market data is messy.
 
 The dataset we use provided by Yahoo Finance can contain:
 
-1. Missing bids
+    1. Missing bids
 
-2. Missing asks
+    2. Missing asks
 
-3. Zero bids
+    3. Zero bids
 
-4. Zero asks
+    4. Zero asks
 
-5. Very wide spreads
+    5. Very wide spreads
 
-6. Stale trades
+    6. Stale trades
 
-7. Missing volume
+    7. Missing volume
 
-8. Missing open interest
+    8. Missing open interest
 
-9. Extreme IV values
+    9. Extreme IV values
 
-10. Prices that violate theoretical bounds
+    10. Prices that violate theoretical bounds
 
 Therefore the application has to filter and classify quotes before using them for IV
 calibration.
 
 There are other unique scenarious in our dataset where:
 
-1. Zero quote
+    1. Zero quote
 
-Bid = $0
-Ask = $0
+        Bid = $0
+        Ask = $0
 
-This should not automatically become:
+    This should not automatically become:
 
-Mid = $0
+        Mid = $0
 
-It may mean that no meaningful two-sided market is available.
+    It may mean that no meaningful two-sided market is available.
+    The application can therefore mark the Mid and IV as unavailable.
 
-The application can therefore mark the Mid and IV as unavailable.
+    2. Crossed market
 
-2. Crossed market
+        Bid = $10
+        Ask = $9
 
-Bid = $10
-Ask = $9
+    This is not a normal valid market and should be rejected.
 
-This is not a normal valid market and should be rejected.
+    3. Wide spread
 
-3. Wide spread
+        Bid = $10
+        Ask = $20
 
-Bid = $10
-Ask = $20
+    The mathematical midpoint is $15, but the quote is extremely wide.
+    A wide quote can therefore be excluded from reliable IV calibration.
 
-The mathematical midpoint is $15, but the quote is extremely wide.
+    The principle is:
 
-A wide quote can therefore be excluded from reliable IV calibration.
-
-The principle is:
-
-A number appearing in a data feed does not automatically make it a
-trustworthy market observation.
+        A number appearing in a data feed does not automatically make it a
+        trustworthy market observation.
 
 ---------------------------------------------------------------------------------
 
@@ -1222,41 +1255,6 @@ Handles:
 
 ----------------------------------------------------------------------------------------------------
 
-**Running the application**
-
-(ChatGPT'ed this part to follow usual GitHub repo lingo)
-
-1. Clone the repository
-
-git clone <your-repository-url>
-cd quant_options_engine
-
-2. Create a virtual environment
-
-Windows
-
-python -m venv .venv
-.venv\Scripts\activate
-
-macOS / Linux
-
-python -m venv .venv
-source .venv/bin/activate
-
-Python virtual environments:
-
-https://docs.python.org/3/library/venv.html
-
-3. Install dependencies
-
-pip install -r requirements.txt
-
-4. Start Streamlit
-
-streamlit run app.py
-
------------------------------------------------------------------------------------------
-
 **Testing**
 
 The application should be tested at both the mathematical and
@@ -1268,7 +1266,7 @@ data-quality levels.
 
 Use known inputs and compare the result against a trusted benchmark.
 
-Put-call parity
+2. Put-call parity:
 
 For European options with continuous dividends:
 
@@ -1276,7 +1274,7 @@ C - P = S e^(-qT) - K e^(-rT)
 
 The calculated values should approximately satisfy this relationship.
 
-IV round trip
+3. IV round trip
 
 Start with:
 
@@ -1290,7 +1288,7 @@ The result should be close to:
 
 25%
 
-Greek sanity checks
+4. Greek sanity checks
 
 For a normal long call:
 
@@ -1304,7 +1302,7 @@ Delta < 0
 Gamma > 0
 Vega > 0
 
-CRR convergence
+5. CRR convergence
 
 Increase CRR steps:
 
@@ -1315,37 +1313,39 @@ Increase CRR steps:
 
 The price should generally become more stable.
 
-American vs European
+6. American vs European
 
 When early exercise has value:
 
 American value >= European value
 
-Bad-data tests
+7. Bad-data tests
 
 Test:
 
-Bid = 0
-Ask = 0
+a.Bid = 0
+  Ask = 0
 
-Missing Bid
-Missing Ask
+b.Missing Bid
+  Missing Ask
 
-Bid > Ask
+c.Bid > Ask
 
-Very wide spread
+d.Very wide spread
 
-Market price below theoretical lower bound
+e.Market price below theoretical lower bound
 
-Market price above theoretical upper bound
+f.Market price above theoretical upper bound
 
-Expected behavior:
+8. Expected behavior:
 
 No application crash
 Invalid contracts flagged or excluded
 IV shown as unavailable when appropriate
 
-Brent failure test
+9. Brent failure test
+
+Initial version had crashes related to brentq solver.
 
 Provide a market price that cannot produce an implied-volatility
 solution.
@@ -1355,7 +1355,7 @@ Expected:
 No application crash
 IV = unavailable
 
-CRR stability test
+10. CRR stability test
 
 Test very short expiration and low volatility.
 
@@ -1365,9 +1365,11 @@ No "Risk-neutral probability outside [0,1]" crash
 
 The implementation should adapt its tree or use its fallback logic.
 
-Learning resources
+---------------------------------------------------------------------------------------------------
 
-Options fundamentals
+**Learning resources**
+
+##Options fundamentals
 
 The Options Industry Council is a good starting point for:
 
@@ -1381,11 +1383,11 @@ Expiration
 
 Premiums
 
-Option pricing
+##Option pricing
 
 https://www.optionseducation.org/
 
-Begin here:
+##Begin here:
 
 https://www.optionseducation.org/optionsoverview/what-is-an-option
 
@@ -1402,7 +1404,7 @@ Akuna Capital Options 101
 This is particularly relevant because it approaches options from a
 market-making perspective.
 
-Topics include:
+##Topics include:
 
 Options basics
 
@@ -1418,11 +1420,11 @@ Volatility
 
 Vega
 
-Delta hedging
+##Delta hedging
 
 https://akunacapital.teachable.com/p/options101
 
-Black-Scholes
+##Black-Scholes
 
 The original Black-Scholes paper is:
 
@@ -1431,7 +1433,7 @@ Liabilities."
 
 https://www.jstor.org/stable/1831029
 
-Numerical methods
+##Numerical methods
 
 SciPy's brentq documentation:
 
@@ -1453,7 +1455,9 @@ Streamlit
 
 https://docs.streamlit.io/
 
-Future improvements
+--------------------------------------------------------------------------------------------------------
+
+**Future improvements**
 
 1. Historical delta-hedging P&L simulator
 
@@ -1533,7 +1537,9 @@ Better liquidity information
 
 More reliable bid/ask updates
 
-Limitations
+-------------------------------------------------------------------------------------------------
+
+**Limitations**
 
 Yahoo Finance is not an execution feed
 
@@ -1543,99 +1549,107 @@ Yahoo quote ≠ guaranteed executable market
 
 Risk-free rate
 
-The application currently uses a user-entered risk-free rate rather than
+    The application currently uses a user-entered risk-free rate rather than
 automatically constructing a full yield curve.
 
 Dividend yield
 
-The application uses a dividend-yield assumption rather than a full
+    The application uses a dividend-yield assumption rather than a full
 discrete-dividend model.
 
 Black-Scholes assumptions
 
-Real markets can have:
+    Real markets can have:
 
-Volatility smiles
+        1. Volatility smiles
 
-Volatility skew
+        2. Volatility skew
 
-Jumps
+        3. Jumps
 
-Transaction costs
+        4. Transaction costs
 
-Bid/ask spreads
+        5. Bid/ask spreads
 
-Changing interest rates
+        6. Changing interest rates
 
-Discrete dividends
+        7. Discrete dividends
 
-Early exercise
+        8. Early exercise
 
-Liquidity constraints
+        9. Liquidity constraints
 
 CRR is still a model
 
-CRR is useful for American-style pricing, but it is still a numerical
+    CRR is useful for American-style pricing, but it is still a numerical
 approximation based on assumptions.
 
 IV is model-dependent
 
-There is no completely model-independent "true IV."
+    There is no completely model-independent "true IV."
 
-IV depends on:
+    IV depends on:
 
-Market price
-Pricing model
-Interest rate
-Dividend assumption
-Time convention
-Numerical method
+        1. Market price
+        2. Pricing model
+        3. Interest rate
+        4. Dividend assumption
+        5. Time convention
+        6. Numerical method
 
 Two systems can therefore produce different IVs from the same market
 data if their assumptions differ.
 
-Disclaimer
+-----------------------------------------------------------------------------------
 
-This project is for education, research, and software-development
+**Disclaimer**
+
+Again, if you've read this far then you should probably realize that:
+
+    1. This project is for education, research, and software-development
 purposes only.
 
-It is not investment advice.
+    2. It is not investment advice.
 
-It is not a trading recommendation.
+    3. It is not a trading recommendation.
 
-It is not an execution system.
+    4. It is not an execution system.
 
-Theoretical prices, implied volatilities, Greeks, and other outputs
+    5. Theoretical prices, implied volatilities, Greeks, and other outputs
 depend on model assumptions and the quality of the underlying market
 data.
 
-Do not use this application as the sole basis for financial decisions.
+    6. Do not use this application as the sole basis for financial decisions.
 
-Why this project matters for quantitative finance
+**This project is simply to refine and implement my understanding of the options market.**
+
+----------------------------------------------------------------------------------------------------------------
+
+**Why this project matters for quantitative finance**
 
 The project demonstrates a small version of a much larger quantitative
 workflow:
 
-Market Data
-    ↓
-Data Cleaning
-    ↓
-Mathematical Model
-    ↓
-Numerical Methods
-    ↓
-Risk Sensitivities
-    ↓
-Visualization
-    ↓
-Research
+    Market Data
+        ↓
+    Data Cleaning
+        ↓
+    Mathematical Model
+        ↓
+    Numerical Methods
+        ↓
+    Risk Sensitivities
+        ↓
+    Visualization
+        ↓
+    Research
 
 The interesting part is not simply calculating an option price.
 
-The interesting part is understanding:
+*The interesting part is understanding:*
 
-What data went into the calculation, what assumptions were made,
-what numerical methods were used, and how confident should we be in
-the result?
+    1. What data went into the calculation, what assumptions were made,
+        what numerical methods were used, and how confident should we be in
+        the result?
 
 That is the core mindset behind quantitative research.  
