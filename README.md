@@ -1,3 +1,8 @@
+(I do highly recommend opening this file in a code editor because the GitHub 
+preview seems to mess up the formatting of the document making it hard to 
+follow at certain areas)
+
+
 **Quantitative Options Research Engine**
 
 A Python + Streamlit application for learning how options are priced,
