@@ -113,6 +113,17 @@ except Exception as exc:
     st.error(f"Unable to retrieve option chain: {exc}")
     st.stop()
 
+# Yahoo Finance can return an empty option chain when the request is
+# temporarily rate-limited or unavailable. Stop cleanly instead of
+# allowing downstream DataFrame operations to fail.
+if calls is None or puts is None or (calls.empty and puts.empty):
+    st.warning(
+        f"Yahoo Finance did not return an option chain for {ticker}. "
+        "This may be a temporary rate limit or data-availability issue. "
+        "Please wait a few minutes and try again."
+    )
+    st.stop()
+
 def build_chain(raw, option_type):
 
     if raw is None or raw.empty:
